@@ -22,6 +22,7 @@
     "mysql2": "^2.1.0",
     "pino": "^5.16.0",
     "sequelize-automate": "^1.2.2",
+    "sequelize-cli": "^5.5.1",
     "web3": "^1.2.6"
   },
   "devDependencies": {

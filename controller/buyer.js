@@ -1,5 +1,6 @@
-const express=require('express')
+const express=require('express');
 const app=express.Router();
+const models=require('../models');
 
 // Get
 app.get('/buyer', getBuyer);

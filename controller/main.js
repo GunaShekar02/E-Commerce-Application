@@ -1,5 +1,6 @@
 const express=require('express');
 const app=express();
+const models=require('../models');
 
 const buyer=require('./buyer');
 const seller=require('./seller');
