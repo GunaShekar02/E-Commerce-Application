@@ -13,6 +13,7 @@ create table Seller(
     phone bigint,
     email varchar(150),
     payeeID varchar(150),
+    regDate timestamp default current_timestamp,
     primary key (sellerID)
 );
 
@@ -63,7 +64,7 @@ create table Customers (
     email varchar(150),
     payerID varchar(150),
     primary key (customerID),
-    regDate datetime
+    regDate timestamp default current_timestamp 
 );
 
 
@@ -72,8 +73,8 @@ create table Orders (
     customerID int,
     orderNumber int,
     paymentID int,
-    orderDate datetime,
-    shipDate datetime,
+    orderDate timestamp default current_timestamp,
+    shipDate timestamp,
     expectedDelivery datetime,
     shipperID int,
     delivered boolean,
@@ -94,8 +95,8 @@ create table OrderDetails (
     price bigint,
     quantity int,
     total int,
-    shipDate datetime,
-    billDate datetime,
+    shipDate timestamp,
+    billDate timestamp,
     fulfilled boolean,
     primary key (orderDetID),
     foreign key (orderID) references Orders(orderID),

@@ -93,6 +93,15 @@ module.exports = sequelize => {
       autoIncrement: false,
       comment: null,
       field: "payeeID"
+    },
+    regDate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "regDate"
     }
   };
   const options = {

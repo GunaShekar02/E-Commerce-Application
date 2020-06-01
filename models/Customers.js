@@ -97,7 +97,7 @@ module.exports = sequelize => {
     regDate: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: null,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
       primaryKey: false,
       autoIncrement: false,
       comment: null,
