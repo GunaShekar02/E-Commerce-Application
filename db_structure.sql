@@ -1,4 +1,4 @@
-drop database ecpDB;
+drop database if exists ecpDB;
 create database ecpDB;
 use ecpDB;
 
