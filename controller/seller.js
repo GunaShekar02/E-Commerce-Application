@@ -3,12 +3,12 @@ const app=express.Router();
 const models=require('../models');
 
 // Get 
-app.get('/dashboard/seller', getSeller);
-app.get('/dashboard/seller/tracking/:id', trackInfo);
+app.get('/', getSeller);
+app.get('/tracking/:id', trackInfo);
 
 // Post
-app.post('/dashboard/seller/products', addProducts);
-app.post('/dashboard/seller/orders', newOrder);
+app.post('/products', addProducts);
+app.post('/orders', newOrder);
 
 // Put
 

@@ -3,19 +3,26 @@ const app=express.Router();
 const models=require('../models');
 
 // Get
-app.get('/buyer', getBuyer);
-app.get('/buyer/tracking/:id', trackInfo);
-app.get('/buyer/orders', getOrders);
-app.get('/buyer/orders/:id', getOrder);
-app.get('/buyer/addresses', getAddr);
+
+app.get('/:id', function (req, res) {
+    // get buyer specific dashboard
+    custID = req.params.id;
+    // some data fetch operations from models, then
+    // then template for dashboard is rendered.
+});
+
+app.get('/tracking/:id', trackInfo);
+app.get('/orders', getOrders);
+app.get('/orders/:id', getOrder);
+app.get('/addresses', getAddr);
     
 //Post
-app.post('/buyer/cart', addToCart);
-app.post('/buyer/order', makeOrder);
+app.post('/cart', addToCart);
+app.post('/order', makeOrder);
     
 // Put
-app.put('/buyer/cred_up', updateCreds);
-app.put('/buyer/addresses/:id', updateAddress);
+app.put('/cred_up', updateCreds);
+app.put('/addresses/:id', updateAddress);
 
 // Delete 
 

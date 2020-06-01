@@ -4,101 +4,102 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: true,
-      autoIncrement: false,
-      comment: null,
-      field: "id"
-    },
-    shop_id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "shop_id"
-    },
-    name: {
-      type: DataTypes.STRING(75),
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "name"
-    },
-    username: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "username",
-      unique: "admins_username_unique"
-    },
-    phone: {
+    sellerID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: null,
+      primaryKey: true,
+      autoIncrement: true,
+      comment: null,
+      field: "sellerID"
+    },
+    companyName: {
+      type: DataTypes.STRING(70),
+      allowNull: true,
+      defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "phone",
-      unique: "admins_phone_unique"
+      field: "companyName"
+    },
+    contactName: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "contactName"
+    },
+    address: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "address"
+    },
+    city: {
+      type: DataTypes.STRING(30),
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "city"
+    },
+    state: {
+      type: DataTypes.STRING(40),
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "state"
+    },
+    PIN: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "PIN"
+    },
+    phone: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+      defaultValue: null,
+      primaryKey: false,
+      autoIncrement: false,
+      comment: null,
+      field: "phone"
     },
     email: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "email",
-      unique: "admins_email_unique"
-    },
-    email_verified_at: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING(150),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "email_verified_at"
+      field: "email"
     },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "password"
-    },
-    remember_token: {
-      type: DataTypes.STRING(100),
+    payeeID: {
+      type: DataTypes.STRING(150),
       allowNull: true,
       defaultValue: null,
       primaryKey: false,
       autoIncrement: false,
       comment: null,
-      field: "remember_token"
+      field: "payeeID"
     }
   };
   const options = {
-    tableName: "admins",
+    tableName: "Seller",
     comment: "",
-    indexes: [{
-      name: "admins_shop_id_foreign",
-      unique: false,
-      type: "BTREE",
-      fields: ["shop_id"]
-    }]
+    indexes: []
   };
-  const AdminsModel = sequelize.define("admins_model", attributes, options);
-  return AdminsModel;
+  const SellerModel = sequelize.define("Seller_model", attributes, options);
+  return SellerModel;
 };
