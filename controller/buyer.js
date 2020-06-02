@@ -1,16 +1,33 @@
 const express=require('express');
 const app=express.Router();
 const models=require('../models');
+const fs=require('path');
+const view_folder = path.resolve('../views');
+const bcrypt=require('bcryptjs');
+const uuid=require('uuid');
+const jwt=require('jsonwebtoken');
 
-// Get
-
-app.get('/:id', function (req, res) {
-    // get buyer specific dashboard
-    custID = req.params.id;
-    // some data fetch operations from models, then
-    // then template for dashboard is rendered.
+app.post('/signup', (req, res) => {
+        const { name, emil, password } = req.body
+        // sequelize query
+        models.Customers.create({
+                contactName: name,
+                email: emil,
+                password: bcrypt.hashSync(password);
+        });
+        res.redirect('/');
 });
 
+app.post('/login', (req, res, next) => {});
+
+
+
+
+
+
+
+// Get
+app.get('/', dashBoard);
 app.get('/tracking/:id', trackInfo);
 app.get('/orders', getOrders);
 app.get('/orders/:id', getOrder);

@@ -1,0 +1,117 @@
+{
+    "tables": {
+        "Category": {
+            "tableName": "Category",
+            "indexes": []
+        },
+        "Customers": {
+            "tableName": "Customers",
+            "indexes": []
+        },
+        "OrderDetails": {
+            "tableName": "OrderDetails",
+            "indexes": {
+                "166e24f086663bc8491c2547944034be9f4a641e": {
+                    "name": "orderID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "orderID"
+                    ],
+                    "options": {
+                        "indexName": "orderID"
+                    }
+                },
+                "59aa1e3b61375802169e813f55e931114b0ac5e6": {
+                    "name": "productID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "productID"
+                    ],
+                    "options": {
+                        "indexName": "productID"
+                    }
+                }
+            }
+        },
+        "Orders": {
+            "tableName": "Orders",
+            "indexes": {
+                "e9886496a451ef0c59f4ccd0fd7ee92782450011": {
+                    "name": "customerID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "customerID"
+                    ],
+                    "options": {
+                        "indexName": "customerID"
+                    }
+                },
+                "c528dc6964166712063dea0bcb8b2589580dde6b": {
+                    "name": "paymentID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "paymentID"
+                    ],
+                    "options": {
+                        "indexName": "paymentID"
+                    }
+                },
+                "487cfa39b59de70f4dc979dc15c8fac0e8fef63c": {
+                    "name": "shipperID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "shipperID"
+                    ],
+                    "options": {
+                        "indexName": "shipperID"
+                    }
+                }
+            }
+        },
+        "Payments": {
+            "tableName": "Payments",
+            "indexes": []
+        },
+        "Products": {
+            "tableName": "Products",
+            "indexes": {
+                "1711869ea5f73440061a69e5fd8b243c88e9d7c0": {
+                    "name": "sellerID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "sellerID"
+                    ],
+                    "options": {
+                        "indexName": "sellerID"
+                    }
+                },
+                "e4ecd4fce7131f5a895286722670206c094f00b7": {
+                    "name": "categoryID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "categoryID"
+                    ],
+                    "options": {
+                        "indexName": "categoryID"
+                    }
+                }
+            }
+        },
+        "Seller": {
+            "tableName": "Seller",
+            "indexes": []
+        },
+        "Shippers": {
+            "tableName": "Shippers",
+            "indexes": []
+        }
+    },
+    "revision": 1
+}
