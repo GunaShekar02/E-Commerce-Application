@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "makolo123",
+    "password": null,
     "database": "ecpDB",
     "host": "127.0.0.1",
     "dialect": "mysql",
@@ -10,14 +10,14 @@
   "test": {
     "username": "root",
     "password": "makolo123",
-    "database": "ecpDB",
+    "database": null,
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
   },
   "production": {
     "username": "root",
-    "password": "makolo123",
+    "password": null,
     "database": "ecpDB",
     "host": "127.0.0.1",
     "dialect": "mysql",
