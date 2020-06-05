@@ -2,6 +2,7 @@ const express=require('express');
 const app=express.Router();
 const models=require('../models');
 const sequelize=models.sequelize;
+const Sequelize=models.Sequelize;
 const bcrypt=require('bcryptjs');
 const uuid=require('uuid');
 const jwt=require('jsonwebtoken');
@@ -18,7 +19,7 @@ const authorize = (req, res, next) => {
             next();
         });
     } else {
-        res.sendStatus(401);
+        res.redirect('/login');
     }
 }
 
@@ -82,6 +83,19 @@ app.post('/cart', authorize, (req, res) => {
                 });
 });
 
+app.get('/cart', authorize, async (req, res) => {
+    const results = await models
+                            .Cart
+                            .findAll(
+                                    {
+                                         where: {customerID: res.user.custID},
+                                         attributes: ["productID", "price", "quantity", "total"]
+                                    })
+                            .map(el => el.get({plain: true}));
+    if (results) { return res.send({cartItems: results}); }
+    else { return res.sendStatus(404); }
+});
+
 app.get('/orders', authorize, async (req, res) => {
     const custID = req.user.custID;
     const results = await models
@@ -89,28 +103,50 @@ app.get('/orders', authorize, async (req, res) => {
                         .findAll({ where : { customerID: custID }, 
                                   include : [models.Orders] })
                         .map(el => el.get({plain : true}));
-    res.send({orderList: results});
+   if (results) { return res.send({orderList: results}); }
+   else { return res.sendStatus(500); }
 });
 
-
-/*app.get('/', dashBoard);
-app.get('/tracking/:id', authorize, trackInfo);
-*/
-/*
 app.get('/orders/:id', authorize, async (req, res) => {
     const result = await models
                        .Orders
                        .findOne({ where: { orderID : req.params.id }});
-    // do some processing and send values.
+    if (result) { res.send(result.get({plain : true})); }
+    else { res.sendStatus(404); }
 });
 
 app.get('/addresses', authorize, async (req, res) => {
     const result = await models
                        .Orders
-                       .findOne({ where: { customerID: req.user.custID }});
-    // do something with result.Address, result.PIN, result.City, result.State.
+                       .findOne({ 
+                               where: { customerID: req.user.custID },
+                               attributes: ["deliveryAddress", 
+                                       "billingAddress", "PIN",
+                                       "state", "city"
+                               ]
+                       });
+    if (result) {
+            return res.send(result.get({plain: true}));
+    }
 });
-    
+
+app.get('/tracking/:id', authorize, async (req, res) => {
+    const result = await models
+                        .OrderDetails
+                        .findOne({
+                            where: {
+                                    [Sequelize.and] : [
+                                            {orderID: req.params.id},
+                                            {fulfilled: 0}]
+                            },
+                            attributes: ["shipDate", "billDate"]
+                        });
+    if (result) { res.send(result.get({plain: true})); }
+    else { res.sendStatus(500); }
+});
+
+/*app.get('/', dashBoard);
+   
 //Post
 app.post('/order', authorize, makeOrder);
     
