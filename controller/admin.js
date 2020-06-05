@@ -1,6 +1,6 @@
-const express=require('express');
-const app=express.Router();
-const models=require('../models');
+const express = require('express');
+const app = express.Router();
+const models = require('../models');
 
 // Get
 
@@ -11,4 +11,4 @@ const models=require('../models');
 // Delete
 
 
-module.exports=app;
+module.exports = app;
