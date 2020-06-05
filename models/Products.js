@@ -7,76 +7,38 @@ module.exports = sequelize => {
     productID: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
-      comment: null,
-      field: "productID"
     },
     SKUID: {
       type: DataTypes.STRING(100),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "SKUID"
     },
     sellerID: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "sellerID",
       references: {
         key: "sellerID",
-        model: "Seller_model"
+        model: "Seller"
       }
     },
     categoryID: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "categoryID",
       references: {
         key: "categoryID",
-        model: "Category_model"
+        model: "Category"
       }
     },
     quantityPerUnit: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "quantityPerUnit"
     },
     unitPrice: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "unitPrice"
     },
     MSRP: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "MSRP"
     }
   };
   const options = {
+          timestamps: false,
     tableName: "Products",
     comment: "",
     indexes: [{
@@ -91,6 +53,6 @@ module.exports = sequelize => {
       fields: ["categoryID"]
     }]
   };
-  const ProductsModel = sequelize.define("Products_model", attributes, options);
+  const ProductsModel = sequelize.define("Products", attributes, options);
   return ProductsModel;
 };

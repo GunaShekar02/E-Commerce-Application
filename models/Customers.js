@@ -7,108 +7,49 @@ module.exports = sequelize => {
     customerID: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
-      comment: null,
-      field: "customerID"
     },
     contactName: {
       type: DataTypes.STRING(50),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "contactName"
     },
     billingAddress: {
       type: DataTypes.STRING(100),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "billingAddress"
     },
     deliveryAddress: {
       type: DataTypes.STRING(200),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "deliveryAddress"
     },
     city: {
       type: DataTypes.STRING(30),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "city"
     },
     state: {
       type: DataTypes.STRING(40),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "state"
     },
     PIN: {
       type: DataTypes.STRING(10),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "PIN"
     },
     phone: {
       type: DataTypes.BIGINT,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "phone"
     },
     email: {
       type: DataTypes.STRING(150),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "email"
     },
     payerID: {
       type: DataTypes.STRING(150),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "payerID"
     },
     regDate: {
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "regDate"
-    }
+    },
+    password : DataTypes.STRING(500)
   };
   const options = {
     tableName: "Customers",
     comment: "",
-    indexes: []
+    indexes: [],
+    timestamps: false
   };
-  const CustomersModel = sequelize.define("Customers_model", attributes, options);
+  const CustomersModel = sequelize.define("Customers", attributes, options);
   return CustomersModel;
 };

@@ -1,5 +1,32 @@
 {
     "tables": {
+        "Cart": {
+            "tableName": "Cart",
+            "indexes": {
+                "e9886496a451ef0c59f4ccd0fd7ee92782450011": {
+                    "name": "customerID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "customerID"
+                    ],
+                    "options": {
+                        "indexName": "customerID"
+                    }
+                },
+                "59aa1e3b61375802169e813f55e931114b0ac5e6": {
+                    "name": "productID",
+                    "unique": false,
+                    "type": "BTREE",
+                    "fields": [
+                        "productID"
+                    ],
+                    "options": {
+                        "indexName": "productID"
+                    }
+                }
+            }
+        },
         "Category": {
             "tableName": "Category",
             "indexes": []

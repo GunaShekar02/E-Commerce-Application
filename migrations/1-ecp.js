@@ -5,6 +5,7 @@ var Sequelize = require('sequelize');
 /**
  * Actions summary:
  *
+ * createTable "Cart", deps: []
  * createTable "Category", deps: []
  * createTable "Customers", deps: []
  * createTable "OrderDetails", deps: []
@@ -13,24 +14,36 @@ var Sequelize = require('sequelize');
  * createTable "Products", deps: []
  * createTable "Seller", deps: []
  * createTable "Shippers", deps: []
- * addIndex "orderID" to table "OrderDetails"
+ * addIndex "productID" to table "Cart"
+ * addIndex "customerID" to table "Cart"
  * addIndex "productID" to table "OrderDetails"
- * addIndex "customerID" to table "Orders"
- * addIndex "paymentID" to table "Orders"
+ * addIndex "orderID" to table "OrderDetails"
  * addIndex "shipperID" to table "Orders"
- * addIndex "sellerID" to table "Products"
+ * addIndex "paymentID" to table "Orders"
+ * addIndex "customerID" to table "Orders"
  * addIndex "categoryID" to table "Products"
+ * addIndex "sellerID" to table "Products"
  *
  **/
 
 var info = {
     "revision": 1,
     "name": "ecp",
-    "created": "2020-06-02T11:56:55.874Z",
+    "created": "2020-06-05T12:25:30.965Z",
     "comment": ""
 };
 
 var migrationCommands = [{
+        fn: "createTable",
+        params: [
+            "Cart",
+            {
+
+            },
+            {}
+        ]
+    },
+    {
         fn: "createTable",
         params: [
             "Category",
@@ -113,10 +126,20 @@ var migrationCommands = [{
     {
         fn: "addIndex",
         params: [
-            "OrderDetails",
-            ["orderID"],
+            "Cart",
+            ["productID"],
             {
-                "indexName": "orderID"
+                "indexName": "productID"
+            }
+        ]
+    },
+    {
+        fn: "addIndex",
+        params: [
+            "Cart",
+            ["customerID"],
+            {
+                "indexName": "customerID"
             }
         ]
     },
@@ -133,10 +156,20 @@ var migrationCommands = [{
     {
         fn: "addIndex",
         params: [
-            "Orders",
-            ["customerID"],
+            "OrderDetails",
+            ["orderID"],
             {
-                "indexName": "customerID"
+                "indexName": "orderID"
+            }
+        ]
+    },
+    {
+        fn: "addIndex",
+        params: [
+            "Orders",
+            ["shipperID"],
+            {
+                "indexName": "shipperID"
             }
         ]
     },
@@ -154,19 +187,9 @@ var migrationCommands = [{
         fn: "addIndex",
         params: [
             "Orders",
-            ["shipperID"],
+            ["customerID"],
             {
-                "indexName": "shipperID"
-            }
-        ]
-    },
-    {
-        fn: "addIndex",
-        params: [
-            "Products",
-            ["sellerID"],
-            {
-                "indexName": "sellerID"
+                "indexName": "customerID"
             }
         ]
     },
@@ -177,6 +200,16 @@ var migrationCommands = [{
             ["categoryID"],
             {
                 "indexName": "categoryID"
+            }
+        ]
+    },
+    {
+        fn: "addIndex",
+        params: [
+            "Products",
+            ["sellerID"],
+            {
+                "indexName": "sellerID"
             }
         ]
     }

@@ -4,12 +4,12 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    orderID: {
+    customerID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        key: "orderID",
-        model: "Orders"
+        key: "customerID",
+        model: "Customers"
       }
     },
     productID: {
@@ -20,15 +20,6 @@ module.exports = sequelize => {
         model: "Products"
       }
     },
-    orderDetID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    orderNumber: {
-      type: DataTypes.INTEGER,
-    },
     price: {
       type: DataTypes.BIGINT,
     },
@@ -37,26 +28,17 @@ module.exports = sequelize => {
     },
     total: {
       type: DataTypes.INTEGER,
-    },
-    shipDate: {
-      type: DataTypes.DATE,
-    },
-    billDate: {
-      type: DataTypes.DATE,
-    },
-    fulfilled: {
-      type: DataTypes.INTEGER(1),
     }
   };
   const options = {
-    tableName: "OrderDetails",
+    tableName: "Cart",
     comment: "",
     timestamps: false,
     indexes: [{
-      name: "orderID",
+      name: "customerID",
       unique: false,
       type: "BTREE",
-      fields: ["orderID"]
+      fields: ["customerID"]
     }, {
       name: "productID",
       unique: false,
@@ -64,6 +46,6 @@ module.exports = sequelize => {
       fields: ["productID"]
     }]
   };
-  const OrderDetailsModel = sequelize.define("OrderDetails", attributes, options);
-  return OrderDetailsModel;
+  const CartModel = sequelize.define("Cart", attributes, options);
+  return CartModel;
 };

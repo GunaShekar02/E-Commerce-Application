@@ -7,116 +7,55 @@ module.exports = sequelize => {
     orderID: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: null,
       primaryKey: true,
       autoIncrement: true,
-      comment: null,
-      field: "orderID"
     },
     customerID: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "customerID",
       references: {
         key: "customerID",
-        model: "Customers_model"
+        model: "Customers"
       }
     },
     orderNumber: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "orderNumber"
     },
     paymentID: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "paymentID",
       references: {
         key: "paymentID",
-        model: "Payments_model"
+        model: "Payments"
       }
     },
     orderDate: {
       type: DataTypes.DATE,
-      allowNull: true,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "orderDate"
     },
     shipDate: {
       type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "shipDate"
     },
     expectedDelivery: {
       type: DataTypes.DATE,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "expectedDelivery"
     },
     shipperID: {
       type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "shipperID",
       references: {
         key: "shipperID",
-        model: "Shippers_model"
+        model: "Shippers"
       }
     },
     delivered: {
       type: DataTypes.INTEGER(1),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "delivered"
     },
     paid: {
       type: DataTypes.INTEGER(1),
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "paid"
     },
     payment_amount: {
       type: DataTypes.BIGINT,
-      allowNull: true,
-      defaultValue: null,
-      primaryKey: false,
-      autoIncrement: false,
-      comment: null,
-      field: "payment_amount"
     }
   };
   const options = {
+    timestamps: false,
     tableName: "Orders",
     comment: "",
     indexes: [{
@@ -136,6 +75,6 @@ module.exports = sequelize => {
       fields: ["shipperID"]
     }]
   };
-  const OrdersModel = sequelize.define("Orders_model", attributes, options);
+  const OrdersModel = sequelize.define("Orders", attributes, options);
   return OrdersModel;
 };
