@@ -73,78 +73,96 @@ app.post('/login', (req, res) => {
 });
 
 app.post('/products', authorize, (req, res) => {
-    const {categoryID, stock, sp, msrp} = req.body;
+    const {
+        categoryID,
+        stock,
+        sp,
+        msrp
+    } = req.body;
     models.Products.create({
-            sellerID: req.user.sellID,
-            categoryID: categoryID,
-            quantityPerUnit: stock,
-            unitPrice: sp,
-            MSRP: msrp,
-            name: req.body.name,
-            description: req.body.desc
+        sellerID: req.user.sellID,
+        categoryID: categoryID,
+        quantityPerUnit: stock,
+        unitPrice: sp,
+        MSRP: msrp,
+        name: req.body.name,
+        description: req.body.desc
     });
     return res.redirect('/');
 });
 
-app.get('/products', authorize, (req, res)=> {
+app.get('/products', authorize, (req, res) => {
     models.Products
-         .findAll({
-                 attributes: {
-                    exclude: ["sellerID", "SKUID"]
-                 },
-                 where: {
-                    sellerID: req.user.sellID
-                 }
-            })
-        .then((result)=> {
-            if (result) { res.send({prodList: result.map(el=> el.get({plain: true}))}); }
-            else {  res.sendStatus(404); }
-    });
+        .findAll({
+            attributes: {
+                exclude: ["sellerID", "SKUID"]
+            },
+            where: {
+                sellerID: req.user.sellID
+            }
+        })
+        .then((result) => {
+            if (result) {
+                res.send({
+                    prodList: result.map(el => el.get({
+                        plain: true
+                    }))
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        });
 });
 
-app.get('/orders', authorize, (req, res)=> {
+app.get('/orders', authorize, (req, res) => {
     models.OrderDetails.findAll({
         attributes: {
             include: ["price", "orderID", "total", "price", "quantity",
-                    "shipDate", "billDate", "fulfilled"    
-            ] 
+                "shipDate", "billDate", "fulfilled"
+            ]
         },
         where: {
             sellerID: req.user.sellID
         },
-        include : [models.Products],
-        order: [['fulfilled', 'ASC']]
-    }).then((result)=> {
+        include: [models.Products],
+        order: [
+            ['fulfilled', 'ASC']
+        ]
+    }).then((result) => {
         if (result) {
-            return res.send({ orders: result.map(el=>el.get({plain: true})) });
+            return res.send({
+                orders: result.map(el => el.get({
+                    plain: true
+                }))
+            });
+        } else {
+            return res.sendStatus(500);
         }
-        else { return res.sendStatus(500); }
     });
 });
 
-app.put('/orders', authorize, (req, res)=> {
+app.put('/orders', authorize, (req, res) => {
     const recToken = req.body;
     var upToken = {};
     for (var key in recToken) {
-        if (recToken[key] !== null){
-                upToken[key] = recToken[key];
+        if (recToken[key] !== null) {
+            upToken[key] = recToken[key];
         }
     }
     models
-       .OrderDetails
-       .update(upToken, {
+        .OrderDetails
+        .update(upToken, {
             where: {
-                    orderID: req.body.orderID,
+                orderID: req.body.orderID,
             }
-       })
-       .then( (result)=> {
+        })
+        .then((result) => {
             if (result) {
                 res.sendStatus(200);
-            }
-            else {
+            } else {
                 res.sendStatus(427);
             }
-       });
+        });
 });
 
 // Get 

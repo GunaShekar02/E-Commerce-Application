@@ -6,7 +6,7 @@ const Sequelize = models.Sequelize;
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
-const validator=require('validator');
+const validator = require('validator');
 
 const secretKey = 'ECPServer';
 
@@ -132,9 +132,9 @@ app.get('/orders', authorize, (req, res) => {
             where: {
                 customerID: custID
             },
-            include: [models.Orders] 
-            })
-         .then((results) => {
+            include: [models.Orders]
+        })
+        .then((results) => {
             if (results) {
                 return res.send({
                     orderList: results.map(el => el.get({
