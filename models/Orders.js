@@ -10,22 +10,8 @@ module.exports = sequelize => {
       primaryKey: true,
       autoIncrement: true,
     },
-    customerID: {
-      type: DataTypes.INTEGER,
-      references: {
-        key: "customerID",
-        model: "Customers"
-      }
-    },
     orderNumber: {
       type: DataTypes.INTEGER,
-    },
-    paymentID: {
-      type: DataTypes.INTEGER,
-      references: {
-        key: "paymentID",
-        model: "Payments"
-      }
     },
     orderDate: {
       type: DataTypes.DATE,
@@ -36,13 +22,6 @@ module.exports = sequelize => {
     },
     expectedDelivery: {
       type: DataTypes.DATE,
-    },
-    shipperID: {
-      type: DataTypes.INTEGER,
-      references: {
-        key: "shipperID",
-        model: "Shippers"
-      }
     },
     delivered: {
       type: DataTypes.INTEGER(1),
@@ -58,22 +37,6 @@ module.exports = sequelize => {
     timestamps: false,
     tableName: "Orders",
     comment: "",
-    indexes: [{
-      name: "customerID",
-      unique: false,
-      type: "BTREE",
-      fields: ["customerID"]
-    }, {
-      name: "paymentID",
-      unique: false,
-      type: "BTREE",
-      fields: ["paymentID"]
-    }, {
-      name: "shipperID",
-      unique: false,
-      type: "BTREE",
-      fields: ["shipperID"]
-    }]
   };
   const OrdersModel = sequelize.define("Orders", attributes, options);
   return OrdersModel;

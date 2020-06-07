@@ -12,6 +12,10 @@ module.exports = sequelize => {
     },
     contactName: {
       type: DataTypes.STRING(50),
+      validate: {
+        isAlpha: true,
+        notEmpty: true
+      }
     },
     billingAddress: {
       type: DataTypes.STRING(100),
@@ -33,16 +37,29 @@ module.exports = sequelize => {
     },
     email: {
       type: DataTypes.STRING(150),
+      validate: {
+            isEmail: true,
+            notEmpty: true
+      }
     },
     payerID: {
       type: DataTypes.STRING(150),
+      validate: {
+            isAlphanumeric: true,
+            notEmpty: true
+      } 
     },
     regDate: {
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
     },
-    password : DataTypes.STRING(500)
+    password : {
+            type : DataTypes.STRING(500),
+            validate: {
+                isAlphanumeric: true
+            }
+    }
   };
   const options = {
     tableName: "Customers",

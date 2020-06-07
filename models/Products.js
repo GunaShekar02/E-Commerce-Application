@@ -4,6 +4,8 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
+    name: DataTypes.STRING(500),
+    description: DataTypes.STRING(2000),
     productID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -12,20 +14,6 @@ module.exports = sequelize => {
     },
     SKUID: {
       type: DataTypes.STRING(100),
-    },
-    sellerID: {
-      type: DataTypes.INTEGER,
-      references: {
-        key: "sellerID",
-        model: "Seller"
-      }
-    },
-    categoryID: {
-      type: DataTypes.INTEGER,
-      references: {
-        key: "categoryID",
-        model: "Category"
-      }
     },
     quantityPerUnit: {
       type: DataTypes.INTEGER,
@@ -41,17 +29,6 @@ module.exports = sequelize => {
           timestamps: false,
     tableName: "Products",
     comment: "",
-    indexes: [{
-      name: "sellerID",
-      unique: false,
-      type: "BTREE",
-      fields: ["sellerID"]
-    }, {
-      name: "categoryID",
-      unique: false,
-      type: "BTREE",
-      fields: ["categoryID"]
-    }]
   };
   const ProductsModel = sequelize.define("Products", attributes, options);
   return ProductsModel;

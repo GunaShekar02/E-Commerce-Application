@@ -31,6 +31,40 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+// foreign key attachments.
+
+db.Seller.hasMany(db.Products, {
+    foreignKey: "sellerID"   
+});
+
+db.Category.hasMany(db.Products, {
+    foreignKey: "categoryID"
+});
+
+db.Products.hasMany(db.OrderDetails, {
+    foreignKey: "productID"
+});
+
+db.Orders.hasOne(db.OrderDetails, {
+    foreignKey: "orderID"
+});
+
+db.Shippers.hasMany(db.Orders, {
+    foreignKey: "shipperID"
+});
+
+db.Payments.hasOne(db.Orders, {
+    foreignKey: "paymentID"
+});
+
+db.Customers.hasMany(db.Orders, {
+    foreignKey: "customerID"
+});
+
+db.Customers.hasOne(db.Cart, {
+    foreignKey: "customerID"
+});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

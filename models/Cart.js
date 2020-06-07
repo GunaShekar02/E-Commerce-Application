@@ -4,22 +4,6 @@ const {
 
 module.exports = sequelize => {
   const attributes = {
-    customerID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        key: "customerID",
-        model: "Customers"
-      }
-    },
-    productID: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        key: "productID",
-        model: "Products"
-      }
-    },
     price: {
       type: DataTypes.BIGINT,
     },
@@ -33,18 +17,7 @@ module.exports = sequelize => {
   const options = {
     tableName: "Cart",
     comment: "",
-    timestamps: false,
-    indexes: [{
-      name: "customerID",
-      unique: false,
-      type: "BTREE",
-      fields: ["customerID"]
-    }, {
-      name: "productID",
-      unique: false,
-      type: "BTREE",
-      fields: ["productID"]
-    }]
+    timestamps: false
   };
   const CartModel = sequelize.define("Cart", attributes, options);
   return CartModel;

@@ -6,6 +6,7 @@ const Sequelize = models.Sequelize;
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
+const validator=require('validator');
 
 const secretKey = 'ECPServer';
 
@@ -96,8 +97,8 @@ app.post('/cart', authorize, (req, res) => {
         });
 });
 
-app.get('/cart', authorize, async (req, res) => {
-    const results = await models
+app.get('/cart', authorize, (req, res) => {
+    models
         .Cart
         .findAll({
             where: {
@@ -107,57 +108,65 @@ app.get('/cart', authorize, async (req, res) => {
         })
         .map(el => el.get({
             plain: true
-        }));
-    if (results) {
-        return res.send({
-            cartItems: results
+        })).then((result) => {
+            if (results) {
+                return res.send({
+                    cartItems: results
+                });
+            } else {
+                return res.sendStatus(404);
+            }
         });
-    } else {
-        return res.sendStatus(404);
-    }
 });
 
-app.get('/orders', authorize, async (req, res) => {
+app.get('/orders', authorize, (req, res) => {
     const custID = req.user.custID;
-    const results = await models
+    models
         .OrderDetails
         .findAll({
+            attributes: [
+                "orderID", "shipDate", "delivered",
+                "paid", "payment_amount", "quantity",
+                "price", "total", "fulfilled", "billDate"
+            ],
             where: {
                 customerID: custID
             },
-            include: [models.Orders]
-        })
-        .map(el => el.get({
-            plain: true
-        }));
-    if (results) {
-        return res.send({
-            orderList: results
+            include: [models.Orders] 
+            })
+         .then((results) => {
+            if (results) {
+                return res.send({
+                    orderList: results.map(el => el.get({
+                        plain: true
+                    }))
+                });
+            } else {
+                return res.sendStatus(500);
+            }
         });
-    } else {
-        return res.sendStatus(500);
-    }
 });
 
-app.get('/orders/:id', authorize, async (req, res) => {
-    const result = await models
+app.get('/orders/:id', authorize, (req, res) => {
+    models
         .Orders
         .findOne({
             where: {
                 orderID: req.params.id
             }
+        }).then((result) => {
+            if (result) {
+                res.send(result.get({
+                    plain: true
+                }));
+            } else {
+                res.sendStatus(404);
+            }
         });
-    if (result) {
-        res.send(result.get({
-            plain: true
-        }));
-    } else {
-        res.sendStatus(404);
-    }
 });
 
-app.get('/addresses', authorize, async (req, res) => {
-    const result = await models
+app.get('/addresses', authorize, (req, res) => {
+    models
         .Orders
         .findOne({
             where: {
@@ -167,16 +176,17 @@ app.get('/addresses', authorize, async (req, res) => {
                 "billingAddress", "PIN",
                 "state", "city"
             ]
+        }).then((result) => {
+            if (result) {
+                return res.send(result.get({
+                    plain: true
+                }));
+            }
         });
-    if (result) {
-        return res.send(result.get({
-            plain: true
-        }));
-    }
 });
 
-app.get('/tracking/:id', authorize, async (req, res) => {
-    const result = await models
+app.get('/tracking/:id', authorize, (req, res) => {
+    models
         .OrderDetails
         .findOne({
             where: {
@@ -189,14 +199,15 @@ app.get('/tracking/:id', authorize, async (req, res) => {
                 ]
             },
             attributes: ["shipDate", "billDate"]
+        }).then((result) => {
+            if (result) {
+                res.send(result.get({
+                    plain: true
+                }));
+            } else {
+                res.sendStatus(500);
+            }
         });
-    if (result) {
-        res.send(result.get({
-            plain: true
-        }));
-    } else {
-        res.sendStatus(500);
-    }
 });
 
 /*app.get('/', dashBoard);
@@ -208,7 +219,6 @@ app.post('/order', authorize, makeOrder);
 app.put('/cred_up', authorize, updateCreds);
 app.put('/addresses/:id', authorize, updateAddress);
 
-// Delete 
+// Delete
 */
-
 module.exports = app;

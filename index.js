@@ -1,4 +1,4 @@
-const controller=require('./controller/buyer');
+const controller=require('./controller/main');
 const express=require('express');
 const app=express();
 const db=require('./models');
