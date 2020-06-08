@@ -114,6 +114,28 @@ app.get('/products', authorize, (req, res) => {
         });
 });
 
+app.put('/products', authorize, (req, res) => {
+    const recToken = req.body;
+    var upToken = {};
+    for (var key in recToken) {
+        if (recToken[key] !== null) {
+            upToken[key] = recToken[key];
+        }
+    }
+    models.Products.update(upToken, {
+        where: {
+            productID: req.body.productID,
+            sellerID: req.user.sellID
+        }
+    }).then((result) => {
+        if (result) {
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(427);
+        }
+    });
+});
+
 app.get('/orders', authorize, (req, res) => {
     models.OrderDetails.findAll({
         attributes: {

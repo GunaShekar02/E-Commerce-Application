@@ -6,7 +6,6 @@ const Sequelize = models.Sequelize;
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
-const validator = require('validator');
 
 const secretKey = 'ECPServer';
 
@@ -26,6 +25,7 @@ const authorize = (req, res, next) => {
     }
 }
 
+
 app.post('/signup', (req, res) => {
     // sequelize transaction and query
     bcrypt.genSalt(10, function(err, salt) {
@@ -34,6 +34,8 @@ app.post('/signup', (req, res) => {
                 contactName: req.body.name,
                 email: req.body.email,
                 password: hash
+            }).catch(Sequelize.ValidationError, (msg) => {
+                return res.status(422).send(msg);
             });
             res.redirect('/login');
         });
@@ -70,8 +72,11 @@ app.post('/login', (req, res) => {
                 return res.sendStatus(403);
             }
         });
+    }).catch(Sequelize.ValidationError, (msg) => {
+        return res.status(422).send(msg);
     });
 });
+
 
 app.post('/cart', authorize, (req, res) => {
     const price = models
@@ -93,7 +98,11 @@ app.post('/cart', authorize, (req, res) => {
                 if (result) {
                     res.sendStatus(200);
                 }
+            }).catch(Sequelize.ValidationError, (msg) => {
+                return res.status(422).send(msg);
             });
+        }).catch(Sequelize.ValidationError, (msg) => {
+            return res.status(422).send(msg);
         });
 });
 
@@ -210,11 +219,65 @@ app.get('/tracking/:id', authorize, (req, res) => {
         });
 });
 
+const mkOrder = (cartItem) => {
+    const {
+        customerID,
+        productID,
+        quantity,
+        unitPrice
+    } = cartItem;
+    models.Orders.create({
+        paid: false,
+        payment_amount: quantity * unitPrice,
+        delivered: false,
+        customerID: customerID
+    }).then((result) => {
+        models.OrderDetails.create({
+            price: unitPrice,
+            quantity: quantity,
+            total: quantity * unitPrice,
+            fufilled: false,
+            productID: productID,
+            orderID: result.orderID
+        }).then((result) => {
+            if (result) {
+                return res.sendStatus(200);
+            } else {
+                return res.sendStatus(402);
+            }
+        }).catch(Sequelize.Validation, (msg) => {
+            return res.status(422).send(msg);
+        });
+    }).catch(Sequelize.Validation, (msg) => {
+        return res.status(422).send(msg);
+    });
+};
+
+app.post('/orders', authorize, (req, res) => {
+    models.Cart.findAll({
+        attributes: {
+            include: ["customerID",
+                "unitPrice", "productID",
+                "quantity"
+            ]
+        },
+        where: {
+            customerID: req.user.custID
+        },
+        include: [models.Products]
+    }).then((result) => {
+        if (result) {
+            return result.map(el => mkOrder(el.get({
+                plain: true
+            })));
+        } else {
+            return res.sendStatus(422);
+        }
+    });
+});
+
 /*app.get('/', dashBoard);
    
-//Post
-app.post('/order', authorize, makeOrder);
-    
 // Put
 app.put('/cred_up', authorize, updateCreds);
 app.put('/addresses/:id', authorize, updateAddress);
