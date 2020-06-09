@@ -15,17 +15,21 @@ npm run dev
 
 # run tests
 npm run test
+
+# seed database with values prepared in advance.
+# must be executed after the project is run.
+# omit to start with empty database.
+
+sequelize db:seed:all
+
+# The values added in advance are
+#   Customer: {email: "johndoe123@gmail.com",  password: "12312d"} for customer login. New users can be added via /buyer/signup route.
+#   Seller: {email: "rupesh@abc.com", password: "12312d"} for seller login  New users can be added via /seller/signup route.
+#   Category: {categoryID: 1} For adding new products.
+# With the above seeds, new products can be added and purchased.
+
 ```
-
-## Install Dependencies
-
-Install all package dependencies (one time operation)
-
-```shell
-npm install
-```
-
-Setup database using ```db_structure.sql```, and change the user name and password values in  ```config/config.json``` to whatever was used to setup the database. This assumes that mysql is running on port number 3306.
+In the ```config/config.json```, enter the database password and username, after creating a new empty database with the name "ecpDB".
 
 ```json
 {
@@ -56,6 +60,17 @@ Setup database using ```db_structure.sql```, and change the user name and passwo
 }
 
 ```
+
+
+## Install Dependencies
+
+Install all package dependencies (one time operation)
+
+```shell
+npm install
+```
+
+Install MySQL server.
 
 ## Run It
 
